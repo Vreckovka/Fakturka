@@ -50,8 +50,8 @@ export default function Sample() {
       dic: "2120812749",
       icDph: "SK2120812749",
       bankAccount: {
-        bankName: "fa",
-        iban: "fa"
+        bankName: "",
+        iban: ""
       }
     },
     details: {
