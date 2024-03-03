@@ -195,7 +195,7 @@ export default function Sample() {
                   saveSquareApi();
                   getSquarePayQr();
 
-                }} type='button' >
+                }} type='button' disabled={!squareName || !sqaarePassword}>
                   Generatovať QR
                 </button>
 
