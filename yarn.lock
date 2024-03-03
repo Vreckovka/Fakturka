@@ -2251,7 +2251,7 @@ natural-compare@^1.4.0:
 
 next@14.1.1:
   version "14.1.1"
-  resolved "https://registry.npmjs.org/next/-/next-14.1.1.tgz"
+  resolved "https://registry.yarnpkg.com/next/-/next-14.1.1.tgz#92bd603996c050422a738e90362dff758459a171"
   integrity sha512-McrGJqlGSHeaz2yTRPkEucxQKe5Zq7uPwyeHNmJaZNY4wx9E9QdxmTp310agFRoMuIYgQrCrT3petg13fSVOww==
   dependencies:
     "@next/env" "14.1.1"

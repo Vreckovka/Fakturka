@@ -132,11 +132,15 @@ function getEntity(entity: Entity, header: string) {
       </View>
     </View>
 
-    {entity.bankAccount?.bankName &&
+    {(entity.bankAccount?.bankName || entity.bankAccount?.iban) &&
       <View style={styles.section}>
         <View style={styles.row}>
           <Text style={[styles.rowColumn, { fontWeight: boldWeight }]}>IBAN:</Text>
-          <Text style={{ fontWeight: boldWeight }}>{entity.bankAccount?.iban?.replace(/[^\dA-Z]/g, '').replace(/(.{4})/g, '$1 ').trim()}</Text>
+          <Text style={{ fontWeight: boldWeight }}>{
+            entity.bankAccount?.iban
+              .replace(/(.{4})/g, '$1 ')
+              .toLocaleUpperCase()
+              .trim()}</Text>
         </View>
 
         <View style={styles.row}>
@@ -254,11 +258,9 @@ const InvoiceDocument: React.FunctionComponent<InvoiceProps> = ({
                     <Text style={{ fontWeight: boldWeight }}>{number}</Text>
                   </View>
                 </View>
-
               </View>
             </View>
           </View>
-
 
           <Svg height={10}>
             <Line x1="0" y1="0" x2="1400" y2="0" strokeWidth={1} stroke={lineStroke} />

@@ -48,7 +48,11 @@ export default function Sample() {
       },
       ico: "51712202",
       dic: "2120812749",
-      icDph: "SK2120812749"
+      icDph: "SK2120812749",
+      bankAccount: {
+        bankName: "fa",
+        iban: "fa"
+      }
     },
     details: {
       creationDate: "1.3.2024",
@@ -93,11 +97,11 @@ export default function Sample() {
   const squareNameKey = "squareName";
   const squarePassKey = "squarePass";
 
-  const [isClient, setIsClient] = useState(false)
+  const [asdasda, setIsClient] = useState(false)
   const totalSum = invoiceData.invoiceItems.reduce((a, b) => a + b.amout * b.unitPrice, 0);
 
   useEffect(() => {
-    setIsClient(true)
+    setIsClient(true);
 
     setSquareName(localStorage.getItem(squareNameKey))
     setSqaarePassword(localStorage.getItem(squarePassKey));
@@ -199,19 +203,21 @@ export default function Sample() {
               }} />
             </div>
 
-            {isClient &&
-              <div className='final-settings-container generate-qr'>
-                <input type='input' value={squareName ?? ""} onChange={(x) => setSquareName(x.target.value)}></input>
-                <input type='password' value={sqaarePassword ?? ""} onChange={(x) => setSqaarePassword(x.target.value)}></input>
 
-                <button onClick={() => {
-                  saveSquareApi();
-                  getSquarePayQr();
+            <div className='final-settings-container generate-qr'>
+              <input type='input' value={squareName ?? ""} onChange={(x) => setSquareName(x.target.value)}></input>
+              <input type='password' value={sqaarePassword ?? ""} onChange={(x) => setSqaarePassword(x.target.value)}></input>
 
-                }} type='button' disabled={!squareName || !sqaarePassword}>
-                  Generatovať QR
-                </button>
+              <button onClick={() => {
+                saveSquareApi();
+                getSquarePayQr();
 
+              }} type='button' disabled={!squareName || !sqaarePassword}>
+                Generatovať QR
+              </button>
+
+
+              {/* {asdasda &&
                 <PDFDownloadLink
                   document={<InvoiceDocument {...invoiceData} totalSum={totalSum} />}
                   fileName={`${invoiceData.supplier.name
@@ -219,12 +225,13 @@ export default function Sample() {
                     .replaceAll(".", "")}-${invoiceData.number}`
                     .toLocaleLowerCase()}>
                   Stiahnuť faktúru</PDFDownloadLink>
-              </div>
-            }
+              } */}
+            </div>
+
           </div>
 
 
-          {isClient &&
+          {asdasda &&
             <div className="invoice-preview-container">
               <div style={styles.pdfDocument}>
                 <PDFViewer height={maxHeight} width={maxWidth}>{<InvoiceDocument {...invoiceData} totalSum={totalSum} />}</PDFViewer>

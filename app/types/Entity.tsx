@@ -4,7 +4,7 @@ export type Entity = {
    dic: string;
    icDph?: string;
    address: Address;
-   bankAccount?: BankAccount;
+   bankAccount: BankAccount;
    phoneNumber?: string;
    email?: string;
 }
@@ -17,8 +17,8 @@ export type Address = {
 }
 
 export type BankAccount = {
-   iban?: string;
-   bankName?: string;
+   iban: string;
+   bankName: string;
 }
 
 export type InvoiceDetails = {
