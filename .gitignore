@@ -35,4 +35,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+pay-square-api.tsx
 pay-square-api-real.tsx

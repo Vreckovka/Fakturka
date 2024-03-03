@@ -6,7 +6,8 @@ import InvoiceDocument, { InvoiceProps, } from './components/invoice-document.co
 import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 import EntitySettings from './components/entity/entity.component';
 import { XMLParser } from 'fast-xml-parser';
-import { getPaySquarePost } from './components/square-pay';
+import { getPaySquarePost } from './square-pay-request';
+import InvoiceItemList from './components/list/invoice-item-list.component';
 
 const maxWidth = 700;
 const maxHeight = 1000;
@@ -82,12 +83,11 @@ export default function Sample() {
           name: "Práca"
         },
       ],
-      totalSum: 0
+    totalSum: 0
   }
 
   const [invoiceData, setInvoiceData] = useState<InvoiceProps>(defaultInvoiceData);
   const [isClient, setIsClient] = useState(false)
-  const [isGeneratedQr, setIsGeneratedQr] = useState(false)
   const totalSum = invoiceData.invoiceItems.reduce((a, b) => a + b.amout * b.unitPrice, 0);
 
   useEffect(() => {
@@ -96,7 +96,7 @@ export default function Sample() {
 
 
   function getPdf() {
-    return <InvoiceDocument {...invoiceData} totalSum={totalSum}/>
+    return <InvoiceDocument {...invoiceData} totalSum={totalSum} />
   }
 
   async function getSquarePayQr() {
@@ -151,6 +151,12 @@ export default function Sample() {
                   }
                   header='Odberateľ'>
                 </EntitySettings>
+
+                <InvoiceItemList items={invoiceData.invoiceItems} onUpdate={(x) => {
+                  const copy = { ...invoiceData };
+                  copy.invoiceItems = x;
+                  setInvoiceData(copy);
+                }} />
               </div>
 
 

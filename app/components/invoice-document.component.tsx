@@ -153,10 +153,15 @@ export function getLocaleNumber(number: Number) {
 }
 
 const lineStroke = "#aaaaaa";
-const cellNameWidth = 250;
 const supplierWidht = 280;
 const fixedMargin = -20;
 
+
+const itemNameColumnWidth = 245;
+const amountColumnWidth = 50;
+const unitColumnWidth = 40;
+const unitPriceColumnWidth = 60;
+const totalPriceColumnWidth = 80;
 
 function getBarcode(data: string) {
   let canvas;
@@ -172,14 +177,14 @@ function getBarcode(data: string) {
 
 
 
-const InvoiceDocument: React.FunctionComponent<InvoiceProps> = ({ 
-  number, 
-  supplier, 
-  subbscriber, 
-  details, 
-  invoiceItems, 
+const InvoiceDocument: React.FunctionComponent<InvoiceProps> = ({
+  number,
+  supplier,
+  subbscriber,
+  details,
+  invoiceItems,
   squarePayData,
-  totalSum 
+  totalSum
 }) => {
 
   const totalLocaleSum = getLocaleNumber(totalSum);
@@ -190,7 +195,6 @@ const InvoiceDocument: React.FunctionComponent<InvoiceProps> = ({
 
         <View>
           <Image src={getBarcode(number)} style={{ width: 130, height: 20, marginLeft: -5 }}></Image>
-
 
           <Text style={styles.title} >FAKTÚRA {number}</Text>
 
@@ -211,7 +215,7 @@ const InvoiceDocument: React.FunctionComponent<InvoiceProps> = ({
                   height: 100,
                   width: 100,
                   left: 180,
-                  top: 60,
+                  top: 55,
                   position: "absolute"
                 }}></Image>}
               </View>
@@ -264,11 +268,11 @@ const InvoiceDocument: React.FunctionComponent<InvoiceProps> = ({
           <View style={[styles.section, { marginTop: 10 }]}>
 
             <View style={[styles.gappedRow, { marginBottom: 5 }]}>
-              <Text style={{ width: cellNameWidth, fontWeight: boldWeight }}>Popis položky</Text>
-              <Text style={{ width: 50, textAlign: "right", fontWeight: boldWeight }}>Množstvo</Text>
-              <Text style={{ width: 30, textAlign: "right", fontWeight: boldWeight }}>MJ</Text>
-              <Text style={{ width: 70, textAlign: "right", fontWeight: boldWeight }}>Cena za MJ</Text>
-              <Text style={{ width: 80, textAlign: "right", fontWeight: boldWeight }}>Celková cena</Text>
+              <Text style={{ width: itemNameColumnWidth, fontWeight: boldWeight }}>Popis položky</Text>
+              <Text style={{ width: amountColumnWidth, textAlign: "right", fontWeight: boldWeight }}>Množstvo</Text>
+              <Text style={{ width: unitColumnWidth, textAlign: "right", fontWeight: boldWeight }}>MJ</Text>
+              <Text style={{ width: unitPriceColumnWidth, textAlign: "right", fontWeight: boldWeight }}>Cena za MJ</Text>
+              <Text style={{ width: totalPriceColumnWidth, textAlign: "right", fontWeight: boldWeight }}>Celková cena</Text>
             </View>
 
 
@@ -282,11 +286,11 @@ const InvoiceDocument: React.FunctionComponent<InvoiceProps> = ({
 
 
                   <View style={[styles.gappedRow, { marginBottom: 2 }]} >
-                    <Text style={{ width: cellNameWidth }}>{x.name}</Text>
-                    <Text style={{ width: 50, textAlign: "right" }}>{getLocaleNumber(x.amout)}</Text>
-                    <Text style={{ width: 30, textAlign: "right" }}>{x.unit}</Text>
-                    <Text style={{ width: 70, textAlign: "right" }}>{getLocaleNumber(x.unitPrice)}</Text>
-                    <Text style={{ width: 80, textAlign: "right" }}>{getLocaleNumber(x.unitPrice * x.amout)}</Text>
+                    <Text style={{ width: itemNameColumnWidth }}>{x.name}</Text>
+                    <Text style={{ width: amountColumnWidth, textAlign: "right" }}>{getLocaleNumber(x.amout)}</Text>
+                    <Text style={{ width: unitColumnWidth, textAlign: "right" }}>{x.unit}</Text>
+                    <Text style={{ width: unitPriceColumnWidth, textAlign: "right" }}>{getLocaleNumber(x.unitPrice)}</Text>
+                    <Text style={{ width: totalPriceColumnWidth, textAlign: "right" }}>{getLocaleNumber(x.unitPrice * x.amout)}</Text>
                   </View>
                   <Svg height={2}>
                     <Line x1="0" y1="0" x2="1400" y2="0" strokeWidth={1} stroke={lineStroke} />
@@ -298,8 +302,15 @@ const InvoiceDocument: React.FunctionComponent<InvoiceProps> = ({
             }
 
             <View style={[styles.gappedRow, { marginBottom: 0, fontSize: 11, marginTop: 5 }]}>
-              <Text style={{ width: cellNameWidth + 50 + 30 + 70 + 46, textAlign: "right", fontWeight: boldWeight }}>Spolu:</Text>
-              <Text style={{ width: 80, textAlign: "right", fontWeight: boldWeight }}>{totalLocaleSum}</Text>
+              <Text style={{
+                width:
+                  itemNameColumnWidth +
+                  amountColumnWidth +
+                  unitColumnWidth +
+                  unitPriceColumnWidth +
+                  46, textAlign: "right", fontWeight: boldWeight
+              }}>Spolu:</Text>
+              <Text style={{ width: totalPriceColumnWidth, textAlign: "right", fontWeight: boldWeight }}>{totalLocaleSum}</Text>
             </View>
 
 

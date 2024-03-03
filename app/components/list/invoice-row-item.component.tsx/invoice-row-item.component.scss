@@ -1,0 +1,23 @@
+.row {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    padding: 0.35rem 0;
+    border-bottom: 1px solid #555555;
+
+    .column.name {
+        width: 15rem;
+
+        input {
+            width: 15rem;
+        }
+    }
+
+    .column {
+        width: 5rem;
+
+        input {
+            width: 5rem;
+        }
+    }
+}
