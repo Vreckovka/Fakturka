@@ -161,7 +161,7 @@ export default function Sample() {
 
 
               <div className='final-settings-container'>
-                <button onClick={() => getSquarePayQr()} type='button'>
+                <button onClick={() => getSquarePayQr()} type='button' className='generate-qr'>
                   Generatovať QR
                 </button>
 

@@ -44,7 +44,7 @@ const InvoiceItemList: React.FunctionComponent<InvoiceItemListProps> = ({ items,
             <button className="new-item" type="button" onClick={(x) => {
                 items.push({ amout: 0, name: "Nová", unit: "xy", unitPrice: 0 });
                 onUpdate(items);
-            }}>Pridaj položku</button>
+            }}>+ Pridaj položku</button>
         </div>
     )
 }
