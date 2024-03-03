@@ -28,7 +28,7 @@ const EntitySettings: React.FunctionComponent<EntitySettings> = ({ entity, onUpd
     </label>
 
     <label>
-      PSC:  <input value={entity.address.postalCode} onChange={(e) => {
+      PSČ:  <input value={entity.address.postalCode} onChange={(e) => {
         entity.address.postalCode = e.target.value;
         onUpdate(entity);
       }} />
@@ -42,22 +42,29 @@ const EntitySettings: React.FunctionComponent<EntitySettings> = ({ entity, onUpd
     </label>
 
     <label>
-      Stat:  <input value={entity.address.country} onChange={(e) => {
+      Štát:  <input value={entity.address.country} onChange={(e) => {
         entity.address.country = e.target.value;
         onUpdate(entity);
       }} />
     </label>
 
     <label>
-      ICO:  <input value={entity.ico} onChange={(e) => {
+      IČO:  <input value={entity.ico} onChange={(e) => {
         entity.ico = e.target.value;
         onUpdate(entity);
       }} />
     </label>
 
     <label>
-      DIC:  <input value={entity.dic} onChange={(e) => {
+      DIČ:  <input value={entity.dic} onChange={(e) => {
         entity.dic = e.target.value;
+        onUpdate(entity);
+      }} />
+    </label>
+
+    <label>
+      IČDPH:  <input value={entity.icDph} onChange={(e) => {
+        entity.icDph = e.target.value;
         onUpdate(entity);
       }} />
     </label>

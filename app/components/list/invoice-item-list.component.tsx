@@ -17,6 +17,17 @@ const InvoiceItemList: React.FunctionComponent<InvoiceItemListProps> = ({ items,
 
     return (
         <div className="item-list-container">
+            <div className="list-header-container">
+                <div className="list-header">
+                    <label>Popis položky</label>
+                    <label>Množstvo</label>
+                    <label>MJ</label>
+                    <label>Cena za MJ</label>
+                    <label>Celková cena</label>
+                </div>
+
+            </div>
+
             {items.map((invoiceItem, y) => {
                 return <InvoiceRowItem invoiceItem={invoiceItem} key={y}
                     onUpdate={() => onUpdate(items)}

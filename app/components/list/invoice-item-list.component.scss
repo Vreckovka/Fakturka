@@ -6,3 +6,24 @@
 .new-item {
     margin: 1rem 0;
 }
+
+.list-header {
+    display: flex;
+    gap: 1rem;
+    margin-left: 3.5rem;
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+
+    label:nth-child(1) {
+        width: 15rem;
+        margin-left: -0.5rem;
+    }
+
+    label {
+        width: 7rem;
+    }
+}
+
+.list-header-container {
+    border-bottom: 1px solid #555555;
+}

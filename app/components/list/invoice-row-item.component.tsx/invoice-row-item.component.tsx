@@ -12,8 +12,6 @@ type InvoiceRowItemProps = {
 
 
 const InvoiceRowItem: React.FunctionComponent<InvoiceRowItemProps> = ({ invoiceItem, onRemove, onUpdate }) => {
-
-
     return (
         <div className="row">
             <button type="button" onClick={(x) => {
@@ -48,6 +46,10 @@ const InvoiceRowItem: React.FunctionComponent<InvoiceRowItemProps> = ({ invoiceI
                         invoiceItem.unitPrice = value as number;
                         onUpdate();
                     }} />
+            </div>
+
+            <div className="column">
+                {invoiceItem.amout * invoiceItem.unitPrice}
             </div>
         </div>)
 }
