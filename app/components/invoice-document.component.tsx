@@ -153,7 +153,10 @@ function getEntity(entity: Entity, header: string) {
 }
 
 export function getLocaleNumber(number: Number) {
-  return number.toLocaleString("sk-SK", { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+  const nn = Number(number);
+  const nunb = nn.toLocaleString("sk-SK", { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+
+  return nunb;
 }
 
 const lineStroke = "#aaaaaa";

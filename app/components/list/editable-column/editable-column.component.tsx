@@ -1,12 +1,14 @@
 import { useState } from "react";
+import { getLocaleNumber } from "../../invoice-document.component";
 
 type EditableColumnProps = {
     onUpdate: (value: string | number) => void
     value: string | number;
+    type?: "number"
 }
 
 
-const EditableColumn: React.FunctionComponent<EditableColumnProps> = ({ value, onUpdate }) => {
+const EditableColumn: React.FunctionComponent<EditableColumnProps> = ({ value, onUpdate, type }) => {
     const [isEdit, setIsEdit] = useState<boolean>(false);
     const [cellValue, setCellValue] = useState<string | number>(value);
 
@@ -18,7 +20,11 @@ const EditableColumn: React.FunctionComponent<EditableColumnProps> = ({ value, o
                         onClick={(x) => { }}
                         value={cellValue}
                         onChange={(x) => {
-                            setCellValue(x.target.value)
+                            let vale = x.target.value;
+                            if (type === "number") {
+                                vale = vale.replace(",", ".");
+                            }
+                            setCellValue(vale)
                         }}
                         onKeyDown={(x) => {
                             if (x.key === "Enter") {
@@ -27,15 +33,18 @@ const EditableColumn: React.FunctionComponent<EditableColumnProps> = ({ value, o
                             }
                         }}
                         onBlur={() => {
-                            setIsEdit(false);
                             onUpdate(cellValue);
+                            setIsEdit(false);
                         }}>
                     </input> :
 
 
-                    <label onClick={(x) => setIsEdit(true)}>
+                    (type === "number") ? < label onClick={(x) => setIsEdit(true)}>
+                        {getLocaleNumber(cellValue as number)}
+                    </label > : < label onClick={(x) => setIsEdit(true)}>
                         {cellValue}
-                    </label>
+                    </label >
+
             }
         </>
     )

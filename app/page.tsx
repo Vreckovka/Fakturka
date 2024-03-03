@@ -97,7 +97,7 @@ export default function Sample() {
   const squareNameKey = "squareName";
   const squarePassKey = "squarePass";
 
-  const [asdasda, setIsClient] = useState(false)
+  const [isClient, setIsClient] = useState(false)
   const totalSum = invoiceData.invoiceItems.reduce((a, b) => a + b.amout * b.unitPrice, 0);
 
   useEffect(() => {
@@ -217,7 +217,7 @@ export default function Sample() {
               </button>
 
 
-              {/* {asdasda &&
+              {isClient &&
                 <PDFDownloadLink
                   document={<InvoiceDocument {...invoiceData} totalSum={totalSum} />}
                   fileName={`${invoiceData.supplier.name
@@ -225,13 +225,13 @@ export default function Sample() {
                     .replaceAll(".", "")}-${invoiceData.number}`
                     .toLocaleLowerCase()}>
                   Stiahnuť faktúru</PDFDownloadLink>
-              } */}
+              }
             </div>
 
           </div>
 
 
-          {asdasda &&
+          {isClient &&
             <div className="invoice-preview-container">
               <div style={styles.pdfDocument}>
                 <PDFViewer height={maxHeight} width={maxWidth}>{<InvoiceDocument {...invoiceData} totalSum={totalSum} />}</PDFViewer>

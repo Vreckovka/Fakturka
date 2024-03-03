@@ -2,6 +2,7 @@ import { InvoiceItem } from "@/app/types/Entity";
 import { useState } from "react";
 import "./invoice-row-item.component.scss"
 import EditableColumn from "../editable-column/editable-column.component";
+import { getLocaleNumber } from "../../invoice-document.component";
 
 type InvoiceRowItemProps = {
     invoiceItem: InvoiceItem;
@@ -27,7 +28,7 @@ const InvoiceRowItem: React.FunctionComponent<InvoiceRowItemProps> = ({ invoiceI
             </div>
 
             <div className="column">
-                <EditableColumn value={invoiceItem.amout}
+                <EditableColumn value={invoiceItem.amout} type="number"
                     onUpdate={(value) => {
                         invoiceItem.amout = value as number;
                         onUpdate();
@@ -41,7 +42,7 @@ const InvoiceRowItem: React.FunctionComponent<InvoiceRowItemProps> = ({ invoiceI
                     }} />
             </div>
             <div className="column">
-                <EditableColumn value={invoiceItem.unitPrice}
+                <EditableColumn value={invoiceItem.unitPrice} type="number"
                     onUpdate={(value) => {
                         invoiceItem.unitPrice = value as number;
                         onUpdate();
@@ -49,7 +50,7 @@ const InvoiceRowItem: React.FunctionComponent<InvoiceRowItemProps> = ({ invoiceI
             </div>
 
             <div className="column">
-                {invoiceItem.amout * invoiceItem.unitPrice}
+                {getLocaleNumber(invoiceItem.amout * invoiceItem.unitPrice)}
             </div>
         </div>)
 }
