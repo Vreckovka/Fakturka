@@ -159,6 +159,19 @@ export default function Sample() {
           <div className='invoice-container'>
             <div className='invoice-data-container'>
               <div className='entities-container'>
+                <div style={{ display: "flex", gap: "1rem" }}>
+                  <label>
+                    Číslo faktúry:{' '}
+                  </label>
+                  <input type='input' value={invoiceData.number}
+                    onChange={(x) => {
+                      const copy = { ...invoiceData };
+                      copy.number = x.target.value;
+                      setInvoiceData(copy);
+                    }}></input>
+                </div>
+
+
                 <EntitySettings entity={invoiceData.supplier}
                   onUpdate={(x) => {
                     const copy = { ...invoiceData };

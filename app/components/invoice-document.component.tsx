@@ -192,7 +192,6 @@ const InvoiceDocument: React.FunctionComponent<InvoiceProps> = ({
   return (
     <Document>
       <Page style={styles.body}>,
-
         <View>
           <Image src={getBarcode(number)} style={{ width: 130, height: 20, marginLeft: -5 }}></Image>
 
@@ -283,8 +282,6 @@ const InvoiceDocument: React.FunctionComponent<InvoiceProps> = ({
             {
               invoiceItems.map((x, y) => {
                 return <View key={y}>
-
-
                   <View style={[styles.gappedRow, { marginBottom: 2 }]} >
                     <Text style={{ width: itemNameColumnWidth }}>{x.name}</Text>
                     <Text style={{ width: amountColumnWidth, textAlign: "right" }}>{getLocaleNumber(x.amout)}</Text>
@@ -292,13 +289,12 @@ const InvoiceDocument: React.FunctionComponent<InvoiceProps> = ({
                     <Text style={{ width: unitPriceColumnWidth, textAlign: "right" }}>{getLocaleNumber(x.unitPrice)}</Text>
                     <Text style={{ width: totalPriceColumnWidth, textAlign: "right" }}>{getLocaleNumber(x.unitPrice * x.amout)}</Text>
                   </View>
+
                   <Svg height={2}>
                     <Line x1="0" y1="0" x2="1400" y2="0" strokeWidth={1} stroke={lineStroke} />
                   </Svg>
-
                 </View>
               })
-
             }
 
             <View style={[styles.gappedRow, { marginBottom: 0, fontSize: 11, marginTop: 5 }]}>
@@ -312,8 +308,6 @@ const InvoiceDocument: React.FunctionComponent<InvoiceProps> = ({
               }}>Spolu:</Text>
               <Text style={{ width: totalPriceColumnWidth, textAlign: "right", fontWeight: boldWeight }}>{totalLocaleSum}</Text>
             </View>
-
-
           </View>
         </View>
 
