@@ -87,17 +87,22 @@ export default function Sample() {
   }
 
   const [invoiceData, setInvoiceData] = useState<InvoiceProps>(defaultInvoiceData);
+  const [squareName, setSquareName] = useState<string | null>();
+  const [sqaarePassword, setSqaarePassword] = useState<string | null>();
+
+  const squareNameKey = "squareName";
+  const squarePassKey = "squarePass";
+
   const [isClient, setIsClient] = useState(false)
   const totalSum = invoiceData.invoiceItems.reduce((a, b) => a + b.amout * b.unitPrice, 0);
 
   useEffect(() => {
     setIsClient(true)
+
+    setSquareName(localStorage.getItem(squareNameKey))
+    setSqaarePassword(localStorage.getItem(squarePassKey));
   }, [])
 
-
-  function getPdf() {
-    return <InvoiceDocument {...invoiceData} totalSum={totalSum} />
-  }
 
   async function getSquarePayQr() {
     if (!invoiceData.supplier.bankAccount) {
@@ -107,7 +112,13 @@ export default function Sample() {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/xml' },
-      body: getPaySquarePost(invoiceData.supplier.bankAccount.iban, invoiceData.number, totalSum)
+      body: getPaySquarePost(
+        invoiceData.supplier.bankAccount.iban,
+        invoiceData.number,
+        totalSum,
+        squareName ?? "",
+        sqaarePassword ?? ""
+      )
     };
 
     const data = await fetch('https://app.bysquare.com/api/generateQR', requestOptions)
@@ -123,6 +134,22 @@ export default function Sample() {
     newData.squarePayData = `data:image/png;base64,${jObj.ImageSetOfQRCodes.PayBySquare}`;
 
     setInvoiceData(newData)
+  }
+
+  function saveSquareApi() {
+    if (!sqaarePassword) {
+      localStorage.removeItem(squarePassKey);
+    }
+    else {
+      localStorage.setItem(squarePassKey, sqaarePassword)
+    }
+
+    if (!squareName) {
+      localStorage.removeItem(squareNameKey);
+    }
+    else {
+      localStorage.setItem(squareNameKey, squareName)
+    }
   }
 
   return (
@@ -160,15 +187,24 @@ export default function Sample() {
               </div>
 
 
-              <div className='final-settings-container'>
-                <button onClick={() => getSquarePayQr()} type='button' className='generate-qr'>
+              <div className='final-settings-container generate-qr'>
+                <input type='input' value={squareName ?? ""} onChange={(x) => setSquareName(x.target.value)}></input>
+                <input type='password' value={sqaarePassword ?? ""} onChange={(x) => setSqaarePassword(x.target.value)}></input>
+
+                <button onClick={() => {
+                  saveSquareApi();
+                  getSquarePayQr();
+
+                }} type='button' >
                   Generatovať QR
                 </button>
 
                 <PDFDownloadLink
-                  document={getPdf()}
-                  fileName={`${invoiceData.supplier.name.replaceAll(" ", "_")
-                    .replaceAll(".", "")}-${invoiceData.number}`.toLocaleLowerCase()}>
+                  document={<InvoiceDocument {...invoiceData} totalSum={totalSum} />}
+                  fileName={`${invoiceData.supplier.name
+                    .replaceAll(" ", "_")
+                    .replaceAll(".", "")}-${invoiceData.number}`
+                    .toLocaleLowerCase()}>
                   Stiahnuť faktúru</PDFDownloadLink>
               </div>
             </div>
@@ -176,7 +212,7 @@ export default function Sample() {
 
             <div className="invoice-preview-container">
               <div style={styles.pdfDocument}>
-                <PDFViewer height={maxHeight} width={maxWidth}>{getPdf()}</PDFViewer>
+                <PDFViewer height={maxHeight} width={maxWidth}>{<InvoiceDocument {...invoiceData} totalSum={totalSum} />}</PDFViewer>
               </div>
             </div>
           </div>

@@ -1,6 +1,11 @@
-import { name, pass } from "@/pay-square-api";
 
-export function getPaySquarePost(account: string, vs: string, amount: number | string) {
+export function getPaySquarePost(
+    account: string,
+    vs: string,
+    amount: number | string,
+    name: string,
+    pass: string
+) {
     const data = `
     <BySquareXmlDocuments xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <Username>${name}</Username>
