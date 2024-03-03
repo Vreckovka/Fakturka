@@ -1,0 +1,16 @@
+.entity-container {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+}
+
+.header {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 1rem 0;
+}
