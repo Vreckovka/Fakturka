@@ -136,7 +136,7 @@ function getEntity(entity: Entity, header: string) {
       <View style={styles.section}>
         <View style={styles.row}>
           <Text style={[styles.rowColumn, { fontWeight: boldWeight }]}>IBAN:</Text>
-          <Text style={{ fontWeight: boldWeight }}>{entity.bankAccount?.iban.replace(/[^\dA-Z]/g, '').replace(/(.{4})/g, '$1 ').trim()}</Text>
+          <Text style={{ fontWeight: boldWeight }}>{entity.bankAccount?.iban?.replace(/[^\dA-Z]/g, '').replace(/(.{4})/g, '$1 ').trim()}</Text>
         </View>
 
         <View style={styles.row}>

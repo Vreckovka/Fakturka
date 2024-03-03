@@ -105,7 +105,7 @@ export default function Sample() {
 
 
   async function getSquarePayQr() {
-    if (!invoiceData.supplier.bankAccount) {
+    if (!invoiceData.supplier.bankAccount || !invoiceData.supplier.bankAccount.iban) {
       return;
     }
 
@@ -154,52 +154,52 @@ export default function Sample() {
 
   return (
     <>
-      {isClient &&
-        <>
-          <div className='invoice-container'>
-            <div className='invoice-data-container'>
-              <div className='entities-container'>
-                <div style={{ display: "flex", gap: "1rem" }}>
-                  <label style={{ fontWeight: 600 }}>
-                    Číslo faktúry:{' '}
-                  </label>
-                  <input type='input' value={invoiceData.number}
-                    onChange={(x) => {
-                      const copy = { ...invoiceData };
-                      copy.number = x.target.value;
-                      setInvoiceData(copy);
-                    }}></input>
-                </div>
 
-
-                <EntitySettings entity={invoiceData.supplier}
-                  onUpdate={(x) => {
+      <>
+        <div className='invoice-container'>
+          <div className='invoice-data-container'>
+            <div className='entities-container'>
+              <div style={{ display: "flex", gap: "1rem" }}>
+                <label style={{ fontWeight: 600 }}>
+                  Číslo faktúry:{' '}
+                </label>
+                <input type='input' value={invoiceData.number}
+                  onChange={(x) => {
                     const copy = { ...invoiceData };
-                    copy.supplier = x;
+                    copy.number = x.target.value;
                     setInvoiceData(copy);
-                  }
-                  }
-                  header='Dodávateľ'>
-                </EntitySettings>
-
-                <EntitySettings entity={invoiceData.subbscriber}
-                  onUpdate={(x) => {
-                    const copy = { ...invoiceData };
-                    copy.subbscriber = x;
-                    setInvoiceData(copy);
-                  }
-                  }
-                  header='Odberateľ'>
-                </EntitySettings>
-
-                <InvoiceItemList items={invoiceData.invoiceItems} onUpdate={(x) => {
-                  const copy = { ...invoiceData };
-                  copy.invoiceItems = x;
-                  setInvoiceData(copy);
-                }} />
+                  }}></input>
               </div>
 
 
+              <EntitySettings entity={invoiceData.supplier}
+                onUpdate={(x) => {
+                  const copy = { ...invoiceData };
+                  copy.supplier = x;
+                  setInvoiceData(copy);
+                }
+                }
+                header='Dodávateľ'>
+              </EntitySettings>
+
+              <EntitySettings entity={invoiceData.subbscriber}
+                onUpdate={(x) => {
+                  const copy = { ...invoiceData };
+                  copy.subbscriber = x;
+                  setInvoiceData(copy);
+                }
+                }
+                header='Odberateľ'>
+              </EntitySettings>
+
+              <InvoiceItemList items={invoiceData.invoiceItems} onUpdate={(x) => {
+                const copy = { ...invoiceData };
+                copy.invoiceItems = x;
+                setInvoiceData(copy);
+              }} />
+            </div>
+
+            {isClient &&
               <div className='final-settings-container generate-qr'>
                 <input type='input' value={squareName ?? ""} onChange={(x) => setSquareName(x.target.value)}></input>
                 <input type='password' value={sqaarePassword ?? ""} onChange={(x) => setSqaarePassword(x.target.value)}></input>
@@ -220,17 +220,20 @@ export default function Sample() {
                     .toLocaleLowerCase()}>
                   Stiahnuť faktúru</PDFDownloadLink>
               </div>
-            </div>
+            }
+          </div>
 
 
+          {isClient &&
             <div className="invoice-preview-container">
               <div style={styles.pdfDocument}>
                 <PDFViewer height={maxHeight} width={maxWidth}>{<InvoiceDocument {...invoiceData} totalSum={totalSum} />}</PDFViewer>
               </div>
             </div>
-          </div>
-        </>
-      }
+          }
+        </div>
+      </>
+
     </>
   );
 }

@@ -68,6 +68,28 @@ const EntitySettings: React.FunctionComponent<EntitySettings> = ({ entity, onUpd
         onUpdate(entity);
       }} />
     </label>
+
+    <label>
+      IBAN:  <input value={entity.bankAccount?.iban ?? ""} onChange={(e) => {
+        if (!entity.bankAccount) {
+          entity.bankAccount = {}
+        }
+
+        entity.bankAccount.iban = e.target.value;
+        onUpdate(entity);
+      }} />
+    </label>
+
+    <label>
+      BANKA:  <input value={entity.bankAccount?.bankName ?? ""} onChange={(e) => {
+        if (!entity.bankAccount) {
+          entity.bankAccount = {}
+        }
+
+        entity.bankAccount.bankName = e.target.value;
+        onUpdate(entity);
+      }} />
+    </label>
   </div>
 )
 
