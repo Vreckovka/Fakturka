@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Page, Text, View, Document, StyleSheet, Font, Image, Svg, Line } from '@react-pdf/renderer';
 import { Entity, InvoiceDetails, InvoiceItem } from '../types/Entity';
 import JsBarcode from 'jsbarcode';
@@ -385,7 +385,3 @@ const InvoiceDocument: React.FunctionComponent<InvoiceProps> = ({
 };
 
 export default InvoiceDocument
-
-function useEffectAsync(arg0: () => void, arg1: never[]) {
-  throw new Error('Function not implemented.');
-}
