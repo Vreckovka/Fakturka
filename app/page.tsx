@@ -160,7 +160,7 @@ export default function Sample() {
             <div className='invoice-data-container'>
               <div className='entities-container'>
                 <div style={{ display: "flex", gap: "1rem" }}>
-                  <label>
+                  <label style={{ fontWeight: 600 }}>
                     Číslo faktúry:{' '}
                   </label>
                   <input type='input' value={invoiceData.number}
