@@ -218,10 +218,10 @@ const InvoiceDocument: React.FunctionComponent<InvoiceProps> = ({
                 {getEntity(subbscriber, "Odberateľ")}
 
                 {squarePayData && <Image src={squarePayData} style={{
-                  height: 100,
+                  height: 110,
                   width: 100,
                   left: 180,
-                  top: 55,
+                  top: 45,
                   position: "absolute"
                 }}></Image>}
               </View>
