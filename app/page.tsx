@@ -18,6 +18,14 @@ let styles = {
   }
 }
 
+function getLastMonth() {
+  var d = new Date(); // current date
+  d.setDate(1); // going to 1st of the month
+  d.setHours(-1); // going to last hour before this date even started.
+
+  return d;
+}
+
 export default function Sample() {
   const defaultInvoiceData: InvoiceProps = {
     number: '20240002',
@@ -55,36 +63,18 @@ export default function Sample() {
       }
     },
     details: {
-      creationDate: "1.3.2024",
-      deliveryDate: "29.2.2024",
-      dueDate: "1.4.2024",
+      creationDate: `${new Date(new Date().getFullYear(), new Date().getMonth(), 1).toLocaleDateString()}`,
+      deliveryDate: `${getLastMonth().toLocaleDateString()}`,
+      dueDate: `${new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1).toLocaleDateString()}`,
       creator: "Ing. Roman Pecho",
     },
     invoiceItems:
       [
         {
-          amout: 1705.75,
-          unit: "kg",
-          unitPrice: 5.25,
-          name: "Pomaranče, banány"
-        },
-        {
-          amout: 17,
-          unit: "ks",
-          unitPrice: 105,
-          name: "Biele mäso"
-        },
-        {
-          amout: 150,
-          unit: "kg",
-          unitPrice: 1.2,
-          name: "Piesok"
-        },
-        {
-          amout: 150,
-          unit: "hod",
-          unitPrice: 32,
-          name: "Práca"
+          amout: 0,
+          unit: "MH",
+          unitPrice: 0,
+          name: "Software development services according to valid contract"
         },
       ],
     totalSum: 0
