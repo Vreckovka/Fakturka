@@ -12,13 +12,17 @@ import { createClient } from "@/app/utils/suppabase/server"
 import { useContext, useRef, useState } from "react"
 
 import { Session, User } from "@supabase/supabase-js"
-import { cookies } from "@/app/page"
+
+import Cookies from "universal-cookie";
+
 
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     const supabase = createClient()
+    const cookies = new Cookies();
+
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
     const [email, setEmail] = useState<string>();
