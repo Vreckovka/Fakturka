@@ -8,6 +8,7 @@ import 'react-pdf/dist/esm/Page/TextLayer.css';
 import './Sample.css';
 
 import type { PDFDocumentProxy } from 'pdfjs-dist';
+import { Label } from '@/components/ui/label';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 const options = {
