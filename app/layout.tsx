@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { PDFViewer } from '@react-pdf/renderer';
-import { pdfjs } from "react-pdf";
+import { Inter as FontSans } from "next/font/google"
+import Navbar from "./components/navbar/nav-bar";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,8 +12,10 @@ export const metadata: Metadata = {
   title: "Fakturka",
 };
 
-
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+})
 
 export default function RootLayout({
   children,
@@ -22,10 +24,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      
-      <body className={inter.className}>{children}</body>
+      <head>
+        <link href="https://fonts.cdnfonts.com/css/come-unto-me" rel="stylesheet" ></link>
+      </head>
+
+
+      <body className={inter.className}>
+        <Navbar></Navbar>
+        {children}
+      </body>
+
     </html>
   );
 }
-
 

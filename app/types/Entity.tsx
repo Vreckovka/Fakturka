@@ -1,25 +1,22 @@
+export type DbEntity = Entity & {
+   id: string;
+}
+
 export type Entity = {
    name: string;
    ico: string;
    dic: string;
    icDph?: string;
-   address: Address;
-   bankAccount: BankAccount;
+   street: string;
+   postalCode: string;
+   city: string;
+   country: string;
+   iban: string;
+   bank: string;
    phoneNumber?: string;
    email?: string;
 }
 
-export type Address = {
-   address: string;
-   postalCode: string;
-   city: string;
-   country: string;
-}
-
-export type BankAccount = {
-   iban: string;
-   bankName: string;
-}
 
 export type InvoiceDetails = {
    creationDate: string;

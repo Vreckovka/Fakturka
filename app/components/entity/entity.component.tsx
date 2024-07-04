@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Entity } from "../../types/Entity";
 import "./entity.component.scss"
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export type EntitySettings = {
   entity: Entity,
@@ -9,81 +11,116 @@ export type EntitySettings = {
 }
 
 
-const EntitySettings: React.FunctionComponent<EntitySettings> = ({ entity, onUpdate, header }) =>
-(
-  <div className='entity-container'>
-    <span className="header">{header}</span>
-    <label>
-      Meno:  <input value={entity.name} onChange={(e) => {
-        entity.name = e.target.value;
-        onUpdate(entity);
-      }} />
-    </label>
+const EntitySettings: React.FunctionComponent<EntitySettings> = ({ entity, onUpdate, header }) => {
+  const [localEntity, setEntity] = useState<Entity>(entity);
 
-    <label>
-      Ulica:  <input value={entity.address.address} onChange={(e) => {
-        entity.address.address = e.target.value;
-        onUpdate(entity);
-      }} />
-    </label>
+  return (
+    <div className='entity-container'>
+      <span className="header">{header}</span>
+      <Label>
+        Meno:  <Input value={localEntity.name} onChange={(e) => {
+          localEntity.name = e.target.value;
+          entity.name = localEntity.name;
 
-    <label>
-      PSČ:  <input value={entity.address.postalCode} onChange={(e) => {
-        entity.address.postalCode = e.target.value;
-        onUpdate(entity);
-      }} />
-    </label>
+          setEntity(structuredClone(localEntity));
+          onUpdate(localEntity);
+        }} />
+      </Label>
 
-    <label>
-      Mesto:  <input value={entity.address.city} onChange={(e) => {
-        entity.address.city = e.target.value;
-        onUpdate(entity);
-      }} />
-    </label>
+      <Label>
+        Ulica:  <Input value={localEntity.street} onChange={(e) => {
+          localEntity.street = e.target.value;
+          entity.street = e.target.value;
 
-    <label>
-      Štát:  <input value={entity.address.country} onChange={(e) => {
-        entity.address.country = e.target.value;
-        onUpdate(entity);
-      }} />
-    </label>
+          setEntity(structuredClone(localEntity));
+          onUpdate(localEntity);
+        }} />
+      </Label>
 
-    <label>
-      IČO:  <input value={entity.ico} onChange={(e) => {
-        entity.ico = e.target.value;
-        onUpdate(entity);
-      }} />
-    </label>
+      <Label>
+        PSČ:  <Input value={localEntity.postalCode} onChange={(e) => {
+          localEntity.postalCode = e.target.value;
+          entity.postalCode = e.target.value;
 
-    <label>
-      DIČ:  <input value={entity.dic} onChange={(e) => {
-        entity.dic = e.target.value;
-        onUpdate(entity);
-      }} />
-    </label>
+          setEntity(structuredClone(localEntity));
+          onUpdate(localEntity);
+        }} />
+      </Label>
 
-    <label>
-      IČDPH:  <input value={entity.icDph ?? ""} onChange={(e) => {
-        entity.icDph = e.target.value;
-        onUpdate(entity);
-      }} />
-    </label>
+      <Label>
+        Mesto:  <Input value={localEntity.city} onChange={(e) => {
+          localEntity.city = e.target.value;
+          entity.city = e.target.value;
 
-    <label>
-      IBAN:  <input value={entity.bankAccount.iban} onChange={(e) => {
-        entity.bankAccount.iban = e.target.value;
-        onUpdate(entity);
-      }} />
-    </label>
+          setEntity(structuredClone(localEntity));
+          onUpdate(localEntity);
+        }} />
+      </Label>
+
+      <Label>
+        Štát:  <Input value={localEntity.country} onChange={(e) => {
+          localEntity.country = e.target.value;
+          entity.country = e.target.value;
+
+          setEntity(structuredClone(localEntity));
+          onUpdate(localEntity);
+        }} />
+      </Label>
+
+      <Label>
+
+        IČO:  <Input value={localEntity.ico} onChange={(e) => {
+          localEntity.ico = e.target.value;
+          entity.ico = e.target.value;
+
+          setEntity(structuredClone(localEntity));
+          onUpdate(localEntity);
+        }} />
+      </Label>
+
+      <Label>
+        DIČ:  <Input value={localEntity.dic} onChange={(e) => {
+          localEntity.dic = e.target.value;
+          entity.dic = e.target.value;
 
 
-    <label>
-      BANKA:  <input value={entity.bankAccount.bankName} onChange={(e) => {
-        entity.bankAccount.bankName = e.target.value;
-        onUpdate(entity);
-      }} />
-    </label>
-  </div>
-)
+          setEntity(structuredClone(localEntity));
+          onUpdate(localEntity);
+        }} />
+      </Label>
+
+      <Label>
+        IČDPH:  <Input value={localEntity.icDph ?? ""} onChange={(e) => {
+          localEntity.icDph = e.target.value;
+          entity.icDph = e.target.value;
+
+          setEntity(structuredClone(localEntity));
+          onUpdate(localEntity);
+        }} />
+      </Label>
+
+      <Label>
+        IBAN:  <Input value={localEntity.iban} onChange={(e) => {
+          localEntity.iban = e.target.value;
+          entity.iban = e.target.value;
+
+          setEntity(structuredClone(localEntity));
+          onUpdate(localEntity);
+        }} />
+      </Label>
+
+
+      <Label>
+        BANKA:  <Input value={localEntity.bank} onChange={(e) => {
+          localEntity.bank = e.target.value;
+          entity.bank = e.target.value;
+
+          setEntity(structuredClone(localEntity));
+          onUpdate(localEntity);
+        }} />
+      </Label>
+    </div>
+  )
+}
 
 export default EntitySettings;

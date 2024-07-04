@@ -3,6 +3,7 @@ import { useState } from "react";
 import "./invoice-row-item.component.scss"
 import EditableColumn from "../editable-column/editable-column.component";
 import { getLocaleNumber } from "../../invoice-document.component";
+import { Button } from "@/components/ui/button";
 
 type InvoiceRowItemProps = {
     invoiceItem: InvoiceItem;
@@ -15,9 +16,9 @@ type InvoiceRowItemProps = {
 const InvoiceRowItem: React.FunctionComponent<InvoiceRowItemProps> = ({ invoiceItem, onRemove, onUpdate }) => {
     return (
         <div className="row">
-            <button type="button" onClick={(x) => {
+            <Button type="button" onClick={(x) => {
                 onRemove(invoiceItem);
-            }}>X</button>
+            }}>X</Button>
 
             <div className="column name">
                 <EditableColumn value={invoiceItem.name}

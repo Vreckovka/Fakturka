@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React from 'react';
+import React, { useRef } from 'react';
 import { Page, Text, View, Document, StyleSheet, Font, Image, Svg, Line } from '@react-pdf/renderer';
 import { Entity, InvoiceDetails, InvoiceItem } from '../types/Entity';
 import JsBarcode from 'jsbarcode';
@@ -97,6 +97,7 @@ export type InvoiceProps = {
   invoiceItems: InvoiceItem[]
   squarePayData?: string | null;
   totalSum: number;
+  signature?: string;
 }
 
 
@@ -105,9 +106,9 @@ function getEntity(entity: Entity, header: string) {
     <View style={styles.section}>
       <Text style={styles.subtitle}>{header}</Text>
       <Text style={{ fontSize: 11, fontWeight: 500 }}>{entity.name}</Text>
-      <Text>{entity.address.address}</Text>
-      <Text>{entity.address.postalCode.replace(/[^\dA-Z]/g, '').replace(/(.{3})/g, '$1 ').trim()} {entity.address.city}</Text>
-      <Text>{entity.address.country}</Text>
+      <Text>{entity.street}</Text>
+      <Text>{entity.postalCode.replace(/[^\dA-Z]/g, '').replace(/(.{3})/g, '$1 ').trim()} {entity.city}</Text>
+      <Text>{entity.country}</Text>
     </View>
 
     <View style={styles.section}>
@@ -132,12 +133,12 @@ function getEntity(entity: Entity, header: string) {
       </View>
     </View>
 
-    {(entity.bankAccount?.bankName || entity.bankAccount?.iban) &&
+    {(entity?.bank || entity?.iban) &&
       <View style={styles.section}>
         <View style={styles.row}>
           <Text style={[styles.rowColumn, { fontWeight: boldWeight }]}>IBAN:</Text>
           <Text style={{ fontWeight: boldWeight }}>{
-            entity.bankAccount?.iban
+            entity?.iban
               .replace(/(.{4})/g, '$1 ')
               .toLocaleUpperCase()
               .trim()}</Text>
@@ -145,7 +146,7 @@ function getEntity(entity: Entity, header: string) {
 
         <View style={styles.row}>
           <Text style={styles.rowColumn}>BANKA:</Text>
-          <Text>{entity.bankAccount?.bankName}</Text>
+          <Text>{entity?.bank}</Text>
         </View>
       </View>}
 
@@ -191,207 +192,229 @@ const InvoiceDocument: React.FunctionComponent<InvoiceProps> = ({
   details,
   invoiceItems,
   squarePayData,
-  totalSum
+  totalSum,
+  signature
 }) => {
 
   const totalLocaleSum = getLocaleNumber(totalSum);
 
   return (
-    <Document>
-      <Page style={styles.body}>,
-        <View>
-          <Image src={getBarcode(number)} style={{ width: 130, height: 20, marginLeft: -5 }}></Image>
-
-          <Text style={styles.title} >FAKTÚRA {number}</Text>
-
+    <>
+      <Document>
+        <Page style={styles.body}>,
           <View>
-            <Svg width={10} style={{ position: "absolute", top: 0, left: supplierWidht + fixedMargin - 10, height: "100%" }} >
-              <Line x1="0" y1="0" x2="0" y2="99999" strokeWidth={1} stroke={lineStroke} />
-            </Svg>
-            <View style={styles.heading}>
+            <Image src={getBarcode(number)} style={{ width: 130, height: 20, marginLeft: -5 }}></Image>
 
-              <View style={{ width: supplierWidht }}>
-                {getEntity(supplier, "Dodávateľ")}
-              </View>
+            <Text style={styles.title} >FAKTÚRA {number}</Text>
 
-              <View style={{ marginLeft: fixedMargin }}>
-                {getEntity(subbscriber, "Odberateľ")}
 
-                {squarePayData && <Image src={squarePayData} style={{
-                  height: 110,
-                  width: 100,
-                  left: 180,
-                  top: 45,
-                  position: "absolute"
-                }}></Image>}
-              </View>
-            </View>
+            <View>
+              <Svg width={10} style={{ position: "absolute", top: 0, left: supplierWidht + fixedMargin - 10, height: "100%" }} >
+                <Line x1="0" y1="0" x2="0" y2="99999" strokeWidth={1} stroke={lineStroke} />
+              </Svg>
+              <View style={styles.heading}>
 
-            <Svg height={1} >
-              <Line x1="0" y1="0" x2="1800" y2="0" strokeWidth={1} stroke={lineStroke} />
-            </Svg>
-
-            <View style={styles.section}>
-              <View style={styles.details}>
                 <View style={{ width: supplierWidht }}>
-                  <View style={[styles.gappedRow]}>
-                    <Text style={styles.detailColumn}>Dátum vystavenia:</Text>
-                    <Text>{details.creationDate}</Text>
-                  </View>
-
-                  <View style={styles.gappedRow}>
-                    <Text style={styles.detailColumn}>Dátum dodania: </Text>
-                    <Text>{details.deliveryDate}</Text>
-                  </View>
-
-                  <View style={styles.gappedRow}>
-                    <Text style={styles.detailColumn}>Dátum splatnosti:</Text>
-                    <Text>{details.dueDate}</Text>
-                  </View>
+                  {getEntity(supplier, "Dodávateľ")}
                 </View>
 
                 <View style={{ marginLeft: fixedMargin }}>
-                  <View style={[styles.gappedRow]}>
-                    <Text style={styles.detailColumn}>Forma úhrady:</Text>
-                    <Text>peňažný prevod</Text>
+                  {getEntity(subbscriber, "Odberateľ")}
+
+                  {squarePayData && <Image src={squarePayData} style={{
+                    height: 110,
+                    width: 100,
+                    left: 180,
+                    top: 45,
+                    position: "absolute"
+                  }}></Image>}
+                </View>
+              </View>
+
+              <Svg height={1} >
+                <Line x1="0" y1="0" x2="1800" y2="0" strokeWidth={1} stroke={lineStroke} />
+              </Svg>
+
+              <View style={styles.section}>
+                <View style={styles.details}>
+                  <View style={{ width: supplierWidht }}>
+                    <View style={[styles.gappedRow]}>
+                      <Text style={styles.detailColumn}>Dátum vystavenia:</Text>
+                      <Text>{details.creationDate}</Text>
+                    </View>
+
+                    <View style={styles.gappedRow}>
+                      <Text style={styles.detailColumn}>Dátum dodania: </Text>
+                      <Text>{details.deliveryDate}</Text>
+                    </View>
+
+                    <View style={styles.gappedRow}>
+                      <Text style={styles.detailColumn}>Dátum splatnosti:</Text>
+                      <Text>{details.dueDate}</Text>
+                    </View>
                   </View>
 
-                  <View style={[styles.gappedRow]}>
-                    <Text style={[styles.detailColumn, { fontWeight: boldWeight }]}>Variabilný symbol:</Text>
-                    <Text style={{ fontWeight: boldWeight }}>{number}</Text>
+                  <View style={{ marginLeft: fixedMargin }}>
+                    <View style={[styles.gappedRow]}>
+                      <Text style={styles.detailColumn}>Forma úhrady:</Text>
+                      <Text>peňažný prevod</Text>
+                    </View>
+
+                    <View style={[styles.gappedRow]}>
+                      <Text style={[styles.detailColumn, { fontWeight: boldWeight }]}>Variabilný symbol:</Text>
+                      <Text style={{ fontWeight: boldWeight }}>{number}</Text>
+                    </View>
                   </View>
                 </View>
               </View>
             </View>
-          </View>
 
-          <Svg height={10}>
-            <Line x1="0" y1="0" x2="1400" y2="0" strokeWidth={1} stroke={lineStroke} />
-          </Svg>
-
-          <View style={[styles.section, { marginTop: 10 }]}>
-
-            <View style={[styles.gappedRow, { marginBottom: 5 }]}>
-              <Text style={{ width: itemNameColumnWidth, fontWeight: boldWeight }}>Popis položky</Text>
-              <Text style={{ width: amountColumnWidth, textAlign: "right", fontWeight: boldWeight }}>Množstvo</Text>
-              <Text style={{ width: unitColumnWidth, textAlign: "right", fontWeight: boldWeight }}>MJ</Text>
-              <Text style={{ width: unitPriceColumnWidth, textAlign: "right", fontWeight: boldWeight }}>Cena za MJ</Text>
-              <Text style={{ width: totalPriceColumnWidth, textAlign: "right", fontWeight: boldWeight }}>Celková cena</Text>
-            </View>
-
-
-            <Svg height={2}>
+            <Svg height={10}>
               <Line x1="0" y1="0" x2="1400" y2="0" strokeWidth={1} stroke={lineStroke} />
             </Svg>
 
-            {
-              invoiceItems.map((x, y) => {
-                return <View key={y}>
-                  <View style={[styles.gappedRow, { marginBottom: 2 }]} >
-                    <Text style={{ width: itemNameColumnWidth }}>{x.name}</Text>
-                    <Text style={{ width: amountColumnWidth, textAlign: "right" }}>{getLocaleNumber(x.amout)}</Text>
-                    <Text style={{ width: unitColumnWidth, textAlign: "right" }}>{x.unit}</Text>
-                    <Text style={{ width: unitPriceColumnWidth, textAlign: "right" }}>{getLocaleNumber(x.unitPrice)}</Text>
-                    <Text style={{ width: totalPriceColumnWidth, textAlign: "right" }}>{getLocaleNumber(x.unitPrice * x.amout)}</Text>
-                  </View>
+            <View style={[styles.section, { marginTop: 10 }]}>
 
-                  <Svg height={2}>
-                    <Line x1="0" y1="0" x2="1400" y2="0" strokeWidth={1} stroke={lineStroke} />
-                  </Svg>
-                </View>
-              })
-            }
-
-            <View style={[styles.gappedRow, { marginBottom: 0, fontSize: 11, marginTop: 5 }]}>
-              <Text style={{
-                width:
-                  itemNameColumnWidth +
-                  amountColumnWidth +
-                  unitColumnWidth +
-                  unitPriceColumnWidth +
-                  46, textAlign: "right", fontWeight: boldWeight
-              }}>Spolu:</Text>
-              <Text style={{ width: totalPriceColumnWidth, textAlign: "right", fontWeight: boldWeight }}>{totalLocaleSum}</Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={{ width: "100%", height: 120 }}>
-          <Svg height={10} >
-            <Line x1="-100" y1="5" x2="2800" y2="5" strokeWidth={1} stroke={lineStroke} />
-          </Svg>
-
-
-          <View style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            width: "100%",
-            textAlign: "left",
-            alignItems: "flex-start",
-            marginTop: 5
-          }}>
-            <View style={[styles.section, { width: 320 }]}>
-              <View style={styles.row} >
-                <Text style={{ width: 45 }}>Vystavil:</Text>
-                <Text>{details.creator}</Text>
+              <View style={[styles.gappedRow, { marginBottom: 5 }]}>
+                <Text style={{ width: itemNameColumnWidth, fontWeight: boldWeight }}>Popis položky</Text>
+                <Text style={{ width: amountColumnWidth, textAlign: "right", fontWeight: boldWeight }}>Množstvo</Text>
+                <Text style={{ width: unitColumnWidth, textAlign: "right", fontWeight: boldWeight }}>MJ</Text>
+                <Text style={{ width: unitPriceColumnWidth, textAlign: "right", fontWeight: boldWeight }}>Cena za MJ</Text>
+                <Text style={{ width: totalPriceColumnWidth, textAlign: "right", fontWeight: boldWeight }}>Celková cena</Text>
               </View>
 
 
-              {(supplier.phoneNumber || supplier.email) && <View>
+              <Svg height={2}>
+                <Line x1="0" y1="0" x2="1400" y2="0" strokeWidth={1} stroke={lineStroke} />
+              </Svg>
 
-                {supplier.phoneNumber && <View style={styles.row} >
-                  <Text style={{ width: 45 }}>Telefón:</Text>
-                  <Text>{supplier.phoneNumber}</Text>
-                </View>}
-                {supplier.email && <View style={styles.row} >
-                  <Text style={{ width: 45 }}>E-mail:</Text>
-                  <Text>{supplier.email}</Text>
-                </View>}
-              </View>}
+              {
+                invoiceItems.map((x, y) => {
+                  return <View key={y}>
+                    <View style={[styles.gappedRow, { marginBottom: 2 }]} >
+                      <Text style={{ width: itemNameColumnWidth }}>{x.name}</Text>
+                      <Text style={{ width: amountColumnWidth, textAlign: "right" }}>{getLocaleNumber(x.amout)}</Text>
+                      <Text style={{ width: unitColumnWidth, textAlign: "right" }}>{x.unit}</Text>
+                      <Text style={{ width: unitPriceColumnWidth, textAlign: "right" }}>{getLocaleNumber(x.unitPrice)}</Text>
+                      <Text style={{ width: totalPriceColumnWidth, textAlign: "right" }}>{getLocaleNumber(x.unitPrice * x.amout)}</Text>
+                    </View>
 
+                    <Svg height={2}>
+                      <Line x1="0" y1="0" x2="1400" y2="0" strokeWidth={1} stroke={lineStroke} />
+                    </Svg>
+                  </View>
+                })
+              }
+
+              <View style={[styles.gappedRow, { marginBottom: 0, fontSize: 11, marginTop: 5 }]}>
+                <Text style={{
+                  width:
+                    itemNameColumnWidth +
+                    amountColumnWidth +
+                    unitColumnWidth +
+                    unitPriceColumnWidth +
+                    46, textAlign: "right", fontWeight: boldWeight
+                }}>Spolu:</Text>
+                <Text style={{ width: totalPriceColumnWidth, textAlign: "right", fontWeight: boldWeight }}>{totalLocaleSum}</Text>
+              </View>
             </View>
+          </View>
 
-            <Svg width={1} height={210} style={{ marginTop: -5 }} >
-              <Line x1="0" y1="0" x2="0" y2="80" strokeWidth={1} stroke={lineStroke} />
+          <View style={{ width: "100%", height: 120 }}>
+            {signature &&
+              <View style={{ width: 150, height: 120, display: "flex", alignItems: "center", alignSelf: "flex-end" }}>
+
+                (<>   <Image src={signature} style={{ height: 20, width: 150 }}></Image></>)
+
+
+
+                <Svg height={10} >
+                  <Line x1="-100" y1="5" x2="2800" y2="5" strokeWidth={1} stroke={lineStroke} />
+                </Svg>
+                <Text>Podpis</Text>
+              </View>
+            }
+            <Svg height={10} >
+              <Line x1="-100" y1="5" x2="2800" y2="5" strokeWidth={1} stroke={lineStroke} />
             </Svg>
 
 
-            <View style={[styles.section, {
+
+
+
+
+            <View style={{
               display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-end",
-              textAlign: "left"
-            }]}>
-              <View style={{
-                display: "flex",
-                flexDirection: "column",
-                width: 200,
-                justifyContent: "space-between"
-              }}>
-                <View style={[styles.row, { justifyContent: "space-between" }]}>
-                  <Text >Celková suma:</Text>
-                  <Text>{totalLocaleSum} EUR</Text>
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: "100%",
+              textAlign: "left",
+              alignItems: "flex-start",
+              marginTop: 5
+            }}>
+              <View style={[styles.section, { width: 320 }]}>
+                <View style={styles.row} >
+                  <Text style={{ width: 45 }}>Vystavil:</Text>
+                  <Text>{details.creator}</Text>
                 </View>
-                <View style={[styles.row, { justifyContent: "space-between" }]}>
-                  <Text >Uhradené zálohami:</Text>
-                  <Text >{getLocaleNumber(0)} EUR</Text>
-                </View>
-                <View style={[styles.row, { justifyContent: "space-between" }]}>
-                  <Text >Zostáva uhradiť:</Text>
-                  <Text >{totalLocaleSum} EUR</Text>
-                </View>
-                <View style={[styles.row, { justifyContent: "space-between" }]}>
-                  <Text >K úhrade:</Text>
-                </View>
+
+
+                {(supplier.phoneNumber || supplier.email) && <View>
+
+                  {supplier.phoneNumber && <View style={styles.row} >
+                    <Text style={{ width: 45 }}>Telefón:</Text>
+                    <Text>{supplier.phoneNumber}</Text>
+                  </View>}
+                  {supplier.email && <View style={styles.row} >
+                    <Text style={{ width: 45 }}>E-mail:</Text>
+                    <Text>{supplier.email}</Text>
+                  </View>}
+                </View>}
+
               </View>
 
-              <Text style={styles.final}>{totalLocaleSum} EUR</Text>
+              <Svg width={1} height={210} style={{ marginTop: -5 }} >
+                <Line x1="0" y1="0" x2="0" y2="80" strokeWidth={1} stroke={lineStroke} />
+              </Svg>
+
+
+
+              <View style={[styles.section, {
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-end",
+                textAlign: "left"
+              }]}>
+                <View style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: 200,
+                  justifyContent: "space-between"
+                }}>
+                  <View style={[styles.row, { justifyContent: "space-between" }]}>
+                    <Text >Celková suma:</Text>
+                    <Text>{totalLocaleSum} EUR</Text>
+                  </View>
+                  <View style={[styles.row, { justifyContent: "space-between" }]}>
+                    <Text >Uhradené zálohami:</Text>
+                    <Text >{getLocaleNumber(0)} EUR</Text>
+                  </View>
+                  <View style={[styles.row, { justifyContent: "space-between" }]}>
+                    <Text >Zostáva uhradiť:</Text>
+                    <Text >{totalLocaleSum} EUR</Text>
+                  </View>
+                  <View style={[styles.row, { justifyContent: "space-between" }]}>
+                    <Text >K úhrade:</Text>
+                  </View>
+                </View>
+
+                <Text style={styles.final}>{totalLocaleSum} EUR</Text>
+              </View>
             </View>
           </View>
-        </View>
-      </Page>
-    </Document>)
+        </Page>
+      </Document>
+    </>)
 };
 
 export default InvoiceDocument

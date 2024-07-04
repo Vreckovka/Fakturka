@@ -2,6 +2,8 @@ import { InvoiceItem } from "@/app/types/Entity";
 import "./invoice-item-list.component.scss"
 import { useState } from "react";
 import InvoiceRowItem from "./invoice-row-item.component.tsx/invoice-row-item.component";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 
 
 type InvoiceItemListProps = {
@@ -19,11 +21,11 @@ const InvoiceItemList: React.FunctionComponent<InvoiceItemListProps> = ({ items,
         <div className="item-list-container">
             <div className="list-header-container">
                 <div className="list-header">
-                    <label>Popis položky</label>
-                    <label>Množstvo</label>
-                    <label>MJ</label>
-                    <label>Cena za MJ</label>
-                    <label>Celková cena</label>
+                    <Label>Popis položky</Label>
+                    <Label>Množstvo</Label>
+                    <Label>MJ</Label>
+                    <Label>Cena za MJ</Label>
+                    <Label>Celková cena</Label>
                 </div>
 
             </div>
@@ -41,10 +43,10 @@ const InvoiceItemList: React.FunctionComponent<InvoiceItemListProps> = ({ items,
                     }} />
             })}
 
-            <button className="new-item" type="button" onClick={(x) => {
+            <Button className="new-item" type="button" onClick={(x) => {
                 items.push({ amout: 0, name: "Nová", unit: "xy", unitPrice: 0 });
                 onUpdate(items);
-            }}>+ Pridaj položku</button>
+            }}>+ Pridaj položku</Button>
         </div>
     )
 }

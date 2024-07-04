@@ -9,15 +9,31 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-label": "^2.0.2",
+    "@radix-ui/react-slot": "^1.0.2",
     "@react-pdf/renderer": "^3.3.8",
+    "@supabase/ssr": "^0.1.0",
+    "@supabase/supabase-js": "^2.39.7",
+    "@types/react-modal": "^3.16.3",
+    "add": "^2.0.6",
+    "button": "^1.1.1",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
     "fast-xml-parser": "^4.3.5",
+    "init": "^0.1.2",
     "jsbarcode": "^3.11.6",
+    "lucide-react": "^0.351.0",
     "next": "14.1.1",
     "react": "^18",
     "react-barcode": "^1.4.6",
     "react-dom": "^18",
+    "react-modal": "^3.16.1",
     "react-pdf": "^7.7.1",
-    "sass": "^1.71.1"
+    "sass": "^1.71.1",
+    "shadcn-ui": "^0.8.0",
+    "tailwind-merge": "^2.2.1",
+    "tailwindcss-animate": "^1.0.7",
+    "universal-cookie": "7.1.4"
   },
   "devDependencies": {
     "@types/node": "^20",

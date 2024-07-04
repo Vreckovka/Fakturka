@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { getLocaleNumber } from "../../invoice-document.component";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 type EditableColumnProps = {
     onUpdate: (value: string | number) => void
@@ -16,7 +18,7 @@ const EditableColumn: React.FunctionComponent<EditableColumnProps> = ({ value, o
         <>
             {
                 isEdit ?
-                    <input autoFocus
+                    <Input autoFocus
                         onClick={(x) => { }}
                         value={cellValue}
                         onChange={(x) => {
@@ -36,14 +38,14 @@ const EditableColumn: React.FunctionComponent<EditableColumnProps> = ({ value, o
                             onUpdate(cellValue);
                             setIsEdit(false);
                         }}>
-                    </input> :
+                    </Input> :
 
 
-                    (type === "number") ? < label onClick={(x) => setIsEdit(true)}>
+                    (type === "number") ? < Label onClick={(x) => setIsEdit(true)}>
                         {getLocaleNumber(cellValue as number)}
-                    </label > : < label onClick={(x) => setIsEdit(true)}>
+                    </Label > : < Label onClick={(x) => setIsEdit(true)}>
                         {cellValue}
-                    </label >
+                    </Label >
 
             }
         </>
