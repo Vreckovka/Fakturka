@@ -12,9 +12,8 @@ import { createClient } from "@/app/utils/suppabase/server"
 import { useContext, useRef, useState } from "react"
 
 import { Session, User } from "@supabase/supabase-js"
-import { cookies, SessionContext } from "@/app/page"
-import { useRouter } from "next/router"
-import Cookies from 'universal-cookie';
+import { cookies } from "@/app/page"
+
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 
@@ -24,8 +23,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
     const [email, setEmail] = useState<string>();
     const [pass, setPass] = useState<string>();
-
-    const store = useContext(SessionContext)
 
     const [user, setUser] = useState<User | null>();
     const [session, setSession] = useState<Session | null>();

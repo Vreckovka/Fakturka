@@ -3,7 +3,7 @@
 import { createClient } from "@/app/utils/suppabase/server"
 import { Button } from "@/components/ui/button"
 import { useContext, useEffect, useState } from "react"
-import { cookies, SessionContext } from "../page"
+import { cookies } from "../page"
 import { PostgrestError, PostgrestSingleResponse, User } from "@supabase/supabase-js"
 import Modal from 'react-modal';
 import EntitySettings from "../components/entity/entity.component"
