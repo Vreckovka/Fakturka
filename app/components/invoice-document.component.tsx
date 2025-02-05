@@ -198,6 +198,15 @@ const InvoiceDocument: React.FunctionComponent<InvoiceProps> = ({
 
   const totalLocaleSum = getLocaleNumber(totalSum);
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString); // Convert the string to a Date object
+    const day = String(date.getDate()).padStart(2, '0'); // Add leading zero if needed
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+    const year = date.getFullYear();
+
+    return `${day}.${month}.${year}`;
+  };
+
   return (
     <>
       <Document>
@@ -223,9 +232,9 @@ const InvoiceDocument: React.FunctionComponent<InvoiceProps> = ({
 
                   {squarePayData && <Image src={squarePayData} style={{
                     height: 110,
-                    width: 100,
-                    left: 180,
-                    top: 45,
+                    width: 95,
+                    left: 195,
+                    top: 0,
                     position: "absolute"
                   }}></Image>}
                 </View>
@@ -240,17 +249,17 @@ const InvoiceDocument: React.FunctionComponent<InvoiceProps> = ({
                   <View style={{ width: supplierWidht }}>
                     <View style={[styles.gappedRow]}>
                       <Text style={styles.detailColumn}>Dátum vystavenia:</Text>
-                      <Text>{details.creationDate}</Text>
+                      <Text>{formatDate(details.creationDate)}</Text>
                     </View>
 
                     <View style={styles.gappedRow}>
                       <Text style={styles.detailColumn}>Dátum dodania: </Text>
-                      <Text>{details.deliveryDate}</Text>
+                      <Text>{formatDate(details.deliveryDate)}</Text>
                     </View>
 
                     <View style={styles.gappedRow}>
                       <Text style={styles.detailColumn}>Dátum splatnosti:</Text>
-                      <Text>{details.dueDate}</Text>
+                      <Text>{formatDate(details.dueDate)}</Text>
                     </View>
                   </View>
 

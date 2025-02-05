@@ -22,40 +22,54 @@ let styles = {
 }
 
 function getLastMonth() {
-  var d = new Date();
+  let d = new Date();
   d.setDate(1);
   d.setHours(-1);
 
   return d;
 }
 
+function getInvoiceNumber(): string {
+
+  try {
+    let year = new Date().getFullYear();
+    let month = new Date().getMonth();
+    let formattedMonth = month.toString().padStart(4, '0');
+
+    return `${year}${formattedMonth}`;
+  }
+  catch {
+    return "20250001"
+  }
+}
+
 export default function Sample() {
   const defaultInvoiceData: InvoiceProps = {
-    number: '20240002',
+    number: getInvoiceNumber(),
     supplier: {
-      name: "Ing. Roman Pecho",
+      name: "IPE s.r.o.",
       email: "pecho4@gmail.com",
       phoneNumber: "+421949274495",
       country: "Slovensko",
-      postalCode: "90042",
-      street: "Vodárenská 848/9",
-      city: "Dunajská Lužná",
-      ico: "54369738",
-      dic: "1126850725",
-      bank: "Všeobecná úverová banka",
-      iban: "SK6602000000003354119758"
+      postalCode: "95633",
+      street: "Pod stanicou 607/5",
+      city: "Chynorany",
+      ico: "55660665",
+      dic: "2122056794",
+      bank: "Tatra banka, a.s.",
+      iban: "SK9511000000002945154892"
     },
     subbscriber: {
-      name: "Panaxeo, s.r.o.",
+      name: "PDI Technologies Slovakia, s.r.o.",
       country: "Slovensko",
-      postalCode: "83103",
-      street: "Kutuzovova 11",
-      city: "Bratislava - Nové Mesto",
-      ico: "51712202",
-      dic: "2120812749",
-      icDph: "SK2120812749",
-      bank: "",
-      iban: ""
+      postalCode: "04011",
+      street: "Gemerská 3",
+      city: "Košice",
+      ico: "45924686",
+      dic: "2023132738",
+      icDph: "SK2023132738",
+      bank: "Tatra banka, a.s.",
+      iban: "SK4811000000002924846945"
     },
     details: {
       creationDate: `${new Date(new Date().getFullYear(), new Date().getMonth(), 1).toLocaleDateString()}`,
@@ -68,8 +82,8 @@ export default function Sample() {
         {
           amout: 0,
           unit: "MH",
-          unitPrice: 0,
-          name: "Software development services according to valid contract"
+          unitPrice: 30,
+          name: "Software and technology building and design, analysis"
         },
       ],
     totalSum: 0

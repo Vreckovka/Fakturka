@@ -10,7 +10,8 @@ export default function Navbar() {
 
     const nav: Navigation[] = [
         { title: "Domov", href: "/" },
-        { title: "Dashboard", href: "/dashboard" }
+        { title: "Dashboard", href: "/dashboard" },
+        { title: "Generator", href: "/invoice-generator" }
     ]
 
     return <nav>
