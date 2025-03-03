@@ -1,9 +1,16 @@
 .nav {
     display: flex;
     gap: 1rem;
+    margin: 0rem 0rem;
+    background: rgba(190, 190, 190, 0.192);
+    padding: 1rem;
 }
 
 .nav-link {
-    background: yellow;
+    background: rgb(67, 80, 143);
     cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    color: white;
+    border-radius: 0.25rem;
+    font-weight: 600;
 }

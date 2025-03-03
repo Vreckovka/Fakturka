@@ -34,6 +34,7 @@ function getInvoiceNumber(): string {
   try {
     let year = new Date().getFullYear();
     let month = new Date().getMonth();
+    month = month === 0 ? 12 : month;
     let formattedMonth = month.toString().padStart(4, '0');
 
     return `${year}${formattedMonth}`;
@@ -92,18 +93,6 @@ export default function Sample() {
   const [invoiceData, setInvoiceData] = useState<InvoiceProps>(defaultInvoiceData);
   const [squareName, setSquareName] = useState<string | null>();
   const [sqaarePassword, setSqaarePassword] = useState<string | null>();
-  // const [file, setFile] = useState<PDFFile>();
-
-
-  // function onFileChange(event: React.ChangeEvent<HTMLInputElement>): void {
-  //   const { files } = event.target;
-
-  //   if (files && files[0]) {
-  //     setFile(files[0] || null);
-  //   }
-  // }
-
-
 
   const squareNameKey = "squareName";
   const squarePassKey = "squarePass";
