@@ -11,8 +11,8 @@ export type Entity = {
    postalCode: string;
    city: string;
    country: string;
-   iban: string;
-   bank: string;
+   iban?: string;
+   bank?: string;
    phoneNumber?: string;
    email?: string;
 }

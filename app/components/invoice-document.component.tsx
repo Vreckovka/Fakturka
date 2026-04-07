@@ -139,7 +139,7 @@ function getEntity(entity: Entity, header: string) {
           <Text style={[styles.rowColumn, { fontWeight: boldWeight }]}>IBAN:</Text>
           <Text style={{ fontWeight: boldWeight }}>{
             entity?.iban
-              .replace(/(.{4})/g, '$1 ')
+              ?.replace(/(.{4})/g, '$1 ')
               .toLocaleUpperCase()
               .trim()}</Text>
         </View>

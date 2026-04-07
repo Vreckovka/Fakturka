@@ -25,7 +25,7 @@ function getLastMonth() {
   let d = new Date();
   d.setDate(1);
   d.setHours(-1);
-
+  d.setMonth(d.getMonth());
   return d;
 }
 
@@ -61,16 +61,14 @@ export default function Sample() {
       iban: "SK9511000000002945154892"
     },
     subbscriber: {
-      name: "PDI Technologies Slovakia, s.r.o.",
+      name: "Finby SSC s.r.o",
       country: "Slovensko",
-      postalCode: "04011",
-      street: "Gemerská 3",
-      city: "Košice",
-      ico: "45924686",
-      dic: "2023132738",
-      icDph: "SK2023132738",
-      bank: "Tatra banka, a.s.",
-      iban: "SK4811000000002924846945"
+      postalCode: "83103",
+      street: "Za Kasárňou 1",
+      city: "Bratislava",
+      ico: "56145489",
+      dic: "2024108",
+      icDph: "SK7120002032"
     },
     details: {
       creationDate: `${new Date(new Date().getFullYear(), new Date().getMonth(), 1).toLocaleDateString()}`,
